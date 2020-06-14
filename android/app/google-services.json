@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1079130572492",
+    "firebase_url": "https://kafecode-auth-firebase.firebaseio.com",
+    "project_id": "kafecode-auth-firebase",
+    "storage_bucket": "kafecode-auth-firebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1079130572492:android:b5573a82915c8009e26469",
+        "android_client_info": {
+          "package_name": "cl.kafecode.auth_firebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1079130572492-6b79ijqtu2etdu7jq7ebpea1uifc8mkh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-NJRT-AEVgY-470goxOts07LNlsTClqY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1079130572492-6b79ijqtu2etdu7jq7ebpea1uifc8mkh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
