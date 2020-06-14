@@ -2,17 +2,24 @@ import 'package:auth_firebase/src/models/UserModel.dart';
 import 'package:auth_firebase/src/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
-class SigninPage extends StatelessWidget {
+class SigninPage extends StatefulWidget {
   
+  @override
+  _SigninPageState createState() => _SigninPageState();
+}
+
+class _SigninPageState extends State<SigninPage> {
   final AuthService _auth = AuthService();
 
-  final email = 'felibass@gmail.com';
+  final email = 'hernandezhfe@gmail.com';
   final password = 'pipexx221';
+  final name = 'uaurio de prueba 2';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
+
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -22,7 +29,7 @@ class SigninPage extends StatelessWidget {
                 child: Text('Register'),
                 onPressed: () async {
 
-                  dynamic result = await _auth.registerWithEmailAndPassword(email, password);
+                  dynamic result = await _auth.registerWithEmailAndPassword(email, password, name);
 
                   if(result == null) {
                     print('Error REGISTER');
@@ -36,6 +43,7 @@ class SigninPage extends StatelessWidget {
 
               ),
             ),
+
             Container(
               padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
               child: RaisedButton(
@@ -50,6 +58,26 @@ class SigninPage extends StatelessWidget {
                     print('Signin OK');
                     result = result;
                     print(result.uid);
+                  }
+
+                },
+
+              ),
+            ),
+
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
+              child: RaisedButton(
+                child: Text('Forgot password?'),
+                onPressed: () async {
+
+                  dynamic result = await _auth.passwordRestoreWhitEmail(email);
+
+                  if(result == null) {
+                    print('Error Restore password');
+                  } else {
+                    print('Email send OK');
+                    print(result);
                   }
 
                 },

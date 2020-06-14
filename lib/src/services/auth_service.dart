@@ -38,18 +38,32 @@ class AuthService {
   }
 
   // register with email and password
-  Future registerWithEmailAndPassword(String email, String password) async {
+  Future registerWithEmailAndPassword(String email, String password, String name) async {
     try {
       AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       FirebaseUser user = result.user;
       // create a new document for the user with the uid
-      await DatabaseService(uid: user.uid).updateUserData(email,'felipe hernández');
+      await DatabaseService(uid: user.uid).updateUserData(email, name);
       return _userFromFirebaseUser(user);
     } catch (error) {
       print(error.toString());
       return null;
     } 
   }
+
+  // register with email and password
+  // Future registerWithGoogle(String email) async {
+  //   try {
+  //     AuthResult result = await _auth.signInWithCredential(credential)
+  //     FirebaseUser user = result.user;
+  //     // create a new document for the user with the uid
+  //     await DatabaseService(uid: user.uid).updateUserData(email, name);
+  //     return _userFromFirebaseUser(user);
+  //   } catch (error) {
+  //     print(error.toString());
+  //     return null;
+  //   } 
+  // }
 
   // sign out
   Future signOut() async {
@@ -59,6 +73,17 @@ class AuthService {
       print(error.toString());
       return null;
     }
+  }
+
+  // forgot password
+  Future<bool> passwordRestoreWhitEmail(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);      
+      return true;
+    } catch (error) {
+      print(error.toString());
+      return false;
+    } 
   }
 
 }
