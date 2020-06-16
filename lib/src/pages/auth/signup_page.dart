@@ -1,5 +1,5 @@
-// import 'package:auth_firebase/src/models/UserModel.dart';
-// import 'package:auth_firebase/src/services/auth_service.dart';
+import 'package:auth_firebase/src/models/UserModel.dart';
+import 'package:auth_firebase/src/services/auth_service.dart';
 import 'package:auth_firebase/src/widgets/link_button_widget.dart';
 import 'package:auth_firebase/src/widgets/text_field_widget.dart';
 import 'package:flutter/material.dart';
@@ -11,12 +11,14 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  // final AuthService _auth = AuthService();
+  final AuthService _auth = AuthService();
 
   String email = '';
   String password = '';
   String passwordConfirm = '';
-  String name = '';
+  String displayName = '';
+  String photoUrl = '';
+  String phoneNumber = '';
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +54,7 @@ class _SignUpPageState extends State<SignUpPage> {
         ),
         _buildPassword(),
         SizedBox(
-          height: 25,
+          height: 15,
         ),
         _buildPasswordConfirm(),
         SizedBox(
@@ -135,7 +137,7 @@ class _SignUpPageState extends State<SignUpPage> {
           isPassword: false,
           onChanged: (value) {
             setState(() {
-              this.name = value;
+              this.displayName = value;
             });
           }),
     );
@@ -179,18 +181,19 @@ class _SignUpPageState extends State<SignUpPage> {
           print(email);
           print(password);
           print(passwordConfirm);
-          print(name);
+          print(displayName);
 
-          // User user =
-          //     await _auth.registerWithEmailAndPassword(email, password, name);
+          User user =
+              await _auth.registerWithEmailAndPassword(password, displayName, photoUrl, email, phoneNumber);
 
-          // if (user.uid != null && user != null) {
-          //   Navigator.pushReplacementNamed(context, 'home');
-          // } else {
-          //   print('error $user');
-          // }
+          if (user.uid != null && user != null) {
+            print(user);
+            Navigator.pushReplacementNamed(context, 'home');
+          } else {
+            print('error $user');
+          }
 
-          // Navigator.pushReplacementNamed(context, 'sidebarlayout');
+          Navigator.pushReplacementNamed(context, 'sidebarlayout');
         },
       ),
     );

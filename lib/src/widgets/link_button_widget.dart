@@ -20,7 +20,6 @@ class LinkButtonWidget extends StatelessWidget {
         // margin: EdgeInsets.only(right: 20),
         alignment: this.aligment,
         child: FlatButton(
-            padding: EdgeInsets.only(right: 0.0),
             onPressed: this.onPressed,
             child: Text(
               this.textLink,

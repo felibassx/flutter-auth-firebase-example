@@ -2,6 +2,7 @@ import 'package:auth_firebase/src/models/UserModel.dart';
 import 'package:auth_firebase/src/services/auth_service.dart';
 import 'package:auth_firebase/src/widgets/link_button_widget.dart';
 import 'package:auth_firebase/src/widgets/text_field_widget.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -15,7 +16,7 @@ class _SignInPageState extends State<SignInPage> {
 
   String email = '';
   String password = '';
-  final name = 'usuario de prueba 2';
+  final name = '';
 
   @override
   Widget build(BuildContext context) {
@@ -61,61 +62,61 @@ class _SignInPageState extends State<SignInPage> {
 
   Widget _buildRegisterBtn(BuildContext context) {
     return LinkButtonWidget(
-        onPressed: () {
-            Navigator.pushReplacementNamed(context, 'signup');
-          },
-        textLink: '¿No tienes una cuenta?, regístrate',
-        textColor: Color(0xff383838),
-        aligment: Alignment.center,
-      );
+      onPressed: () {
+        Navigator.pushReplacementNamed(context, 'signup');
+      },
+      textLink: '¿No tienes una cuenta?, regístrate',
+      textColor: Color(0xff383838),
+      aligment: Alignment.center,
+    );
   }
 
   Widget _buildForgotPasswordBtn() {
     return Container(
       margin: EdgeInsets.only(right: 20),
       child: LinkButtonWidget(
-          onPressed: () {
-             print('Forgot Password');
-            },
-          textLink: '¿Olvidó su contraseña?',
-          textColor: Color(0xff383838),
-          aligment: Alignment.centerRight,
-        ),
+        onPressed: () {
+          _showMyDialog();
+        },
+        textLink: '¿Olvidó su contraseña?',
+        textColor: Color(0xff383838),
+        aligment: Alignment.centerRight,
+      ),
     );
   }
 
   Widget _buildPassword() {
     return Container(
-        margin: EdgeInsets.symmetric(horizontal: 15),
-        child: TextFieldWidget(
-            hintText: 'Password',
-            labelText: 'Password',
-            icon: Icons.lock,
-            textInputType: TextInputType.visiblePassword,
-            isPassword: true,
-            onChanged: (value) {
-              setState(() {
-                this.password = value;
-              });
-            }),
-      );
+      margin: EdgeInsets.symmetric(horizontal: 15),
+      child: TextFieldWidget(
+          hintText: 'Password',
+          labelText: 'Password',
+          icon: Icons.lock,
+          textInputType: TextInputType.visiblePassword,
+          isPassword: true,
+          onChanged: (value) {
+            setState(() {
+              this.password = value;
+            });
+          }),
+    );
   }
 
   Widget _buildEmail() {
     return Container(
-        margin: EdgeInsets.symmetric(horizontal: 15),
-        child: TextFieldWidget(
-            hintText: 'Email',
-            labelText: 'Email',
-            icon: Icons.email,
-            textInputType: TextInputType.emailAddress,
-            isPassword: false,
-            onChanged: (value) {
-              setState(() {
-                this.email = value;
-              });
-            }),
-      );
+      margin: EdgeInsets.symmetric(horizontal: 15),
+      child: TextFieldWidget(
+          hintText: 'Email',
+          labelText: 'Email',
+          icon: Icons.email,
+          textInputType: TextInputType.emailAddress,
+          isPassword: false,
+          onChanged: (value) {
+            setState(() {
+              this.email = value;
+            });
+          }),
+    );
   }
 
   Widget _buildLogo() {
@@ -169,6 +170,63 @@ class _SignInPageState extends State<SignInPage> {
       ),
     );
   }
+
+  Future<void> _showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Recuperar contraseña'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                TextField(
+                    onChanged: (value) {
+                      this.email = value;
+                    },
+                    keyboardType: TextInputType.text,
+                    style: TextStyle(color: Colors.black38),
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.only(top: 14.0),
+                        prefixIcon: Icon(
+                          Icons.email,
+                          color: Colors.black,
+                        ),
+                        hintText: 'Ingrea tu email',
+                        hintStyle: TextStyle(
+                          color: Colors.black38,
+                          fontFamily: 'OpenSans',
+                        )))
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Enviar'),
+              onPressed: () async {
+                bool resp = await _auth.passwordRestoreWhitEmail(email);
+
+                if (resp) {
+                  showLongToast();
+
+                  Navigator.of(context).pop();
+                } else {
+                  print('Error al enviar email de recuperación de password');
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void showLongToast() {
+    Fluttertoast.showToast(
+      msg: "Revise su correo para restaurar la contraseña",
+      toastLength: Toast.LENGTH_LONG,
+    );
+  }
 }
-
-
