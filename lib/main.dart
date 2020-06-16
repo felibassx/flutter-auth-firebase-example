@@ -1,5 +1,6 @@
 
 import 'package:auth_firebase/src/pages/auth/siginin_page.dart';
+import 'package:auth_firebase/src/pages/auth/signup_page.dart';
 import 'package:auth_firebase/src/pages/home_page.dart';
 import 'package:flutter/material.dart';
  
@@ -15,6 +16,7 @@ class MyApp extends StatelessWidget {
       routes: {
         'home': (BuildContext context) => HomePage(),
         'signin': (BuildContext context) => SignInPage(),
+        'signup': (BuildContext context) => SignUpPage(),
       },
     );
   }
