@@ -198,7 +198,8 @@ class _SignInPageState extends State<SignInPage> {
                         hintStyle: TextStyle(
                           color: Colors.black38,
                           fontFamily: 'OpenSans',
-                        )))
+                        ))
+                )
               ],
             ),
           ),
@@ -206,15 +207,28 @@ class _SignInPageState extends State<SignInPage> {
             FlatButton(
               child: Text('Enviar'),
               onPressed: () async {
+                if (this.email == '') {
+                  showLongToast('Ingrese el email.');
+                  return;
+                }
+
                 bool resp = await _auth.passwordRestoreWhitEmail(email);
 
                 if (resp) {
-                  showLongToast();
-
+                  showLongToast(
+                      'Se ha enviado un correo a $email con las instrucciones para restablecer la contraseña.');
                   Navigator.of(context).pop();
                 } else {
-                  print('Error al enviar email de recuperación de password');
+                  showLongToast('Error al recuperar contraseña.');
+                  Navigator.of(context).pop();
                 }
+              },
+            ),
+
+            FlatButton(
+              child: Text('Cerrar'),
+              onPressed: () async {
+                Navigator.of(context).pop();
               },
             ),
           ],
@@ -223,10 +237,7 @@ class _SignInPageState extends State<SignInPage> {
     );
   }
 
-  void showLongToast() {
-    Fluttertoast.showToast(
-      msg: "Revise su correo para restaurar la contraseña",
-      toastLength: Toast.LENGTH_LONG,
-    );
+  void showLongToast(String msg) {
+    Fluttertoast.showToast(msg: msg, toastLength: Toast.LENGTH_LONG);
   }
 }
